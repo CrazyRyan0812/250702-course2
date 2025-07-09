@@ -2,8 +2,8 @@
 import { ref, computed } from "vue"
 import axios from "axios"
 // import { STORAGE_KEY } from "../../constant"
-import { STORAGE_KEY } from "../../constant"
-defineEmits(["goRegister"])
+import { setToken } from "../utils/token"
+const emits = defineEmits(["goRegister", "login_success"])
 
 // const STORAGE_KEY = "demo-todo"
 
@@ -28,8 +28,10 @@ const login = async () => {
     )
     console.log(resp.headers.authorization)
     const token = resp.headers.authorization
-    localStorage.setItem(STORAGE_KEY, token)
+    // localStorage.setItem(STORAGE_KEY, token)
+    setToken(token)
     clearAll()
+    emits("login_success")
   } catch (err) {
     const message = err.response.data.message
     alert(message)
